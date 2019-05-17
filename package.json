@@ -1,0 +1,29 @@
+{
+  "name": "redlock-coordinator",
+  "version": "1.0.0",
+  "description": "Elects a leader by redlock ",
+  "license": "MIT",
+  "engines": { "node": ">= 8.10.0" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bluerivers/redlock-coordinator"
+  },
+  "homepage": "https://github.com/bluerivers/redlock-coordinator",
+  "bugs": {
+    "url": "https://github.com/bluerivers/redlock-coordinator/issues"
+  },
+  "author": "Jinhyuck Gin Kim",
+  "keywords": [
+    "coordinator",
+    "leader",
+    "election",
+    "redlock"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "redlock": "^3.1.2"
+  }
+}
