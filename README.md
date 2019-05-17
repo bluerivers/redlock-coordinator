@@ -29,18 +29,6 @@ const coordinator = new Coordinator([
 
 ## API
 
-  key: 'coordinator:redlock',
-    logger: console,
-    ttl: 10000,
-    renew: 5000,
-    wait: 1000,
-    redlock: {
-        driftFactor: 0.01,
-        retryCount: 10,
-        retryDelay: 200,
-        retryJitter: 200,
-    },
-
 ### new Coordinator(redis, options)
 
   Create a new Coordinator
