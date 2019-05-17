@@ -15,6 +15,12 @@ const defaultOption = {
     },
 };
 
+const Event = {
+    ELECTED: 'elected',
+    RESIGNED: 'resigned',
+    ERROR: 'error',
+};
+
 class Coordinator extends EventEmitter {
     constructor(redis, options) {
         super();
@@ -84,7 +90,7 @@ class Coordinator extends EventEmitter {
             myRedlock,
         ).on('clientError', (error) => {
             logger.error('A redis error has occurred - err: %O', error);
-            this.emit('error', error);
+            throw error;
         });
 
 
@@ -100,14 +106,14 @@ class Coordinator extends EventEmitter {
                 this.myLock.value, new Date(this.myLock.expiration));
 
             this.renewId = setInterval(this.renew.bind(this), this.renewTime);
-            this.emit('elected');
+            this.emit(Event.ELECTED);
         } catch (error) {
             this.myLock = null;
             if (error.name === 'LockError') {
                 this.logger.debug('[elect] I am not a coordinator');
             } else {
                 this.logger.error('[elect] error occurs - error: %O', error);
-                this.emit('error', error);
+                this.emit(Event.ERROR, error);
             }
             this.electId = setTimeout(this.elect.bind(this), this.waitTime);
         }
@@ -127,8 +133,17 @@ class Coordinator extends EventEmitter {
                 this.myLock = await this.myLock.extend(this.ttl);
             } catch (error) {
                 this.logger.error('[renew] extend fails - error: %O', error);
-                this.emit('error', error);
-                this.emit('resign');
+                this.emit(Event.ERROR, error);
+
+                try {
+                    clearInterval(this.renewId);
+                    await this.myLock.unlock();
+                } catch (error) {
+                    this.logger.warn('[renew] unlock fails - error: %O', error);
+                }
+
+                this.myLock = null;
+                this.emit(Event.RESIGNED);
             }
         } else {
             // 대기 후 시도
@@ -150,14 +165,14 @@ class Coordinator extends EventEmitter {
                 await this.myLock.unlock();
             } catch (error) {
                 this.logger.error('[resign] unlock fails - error: %O', error);
-                this.emit('error', error);
+                this.emit(Event.ERROR, error);
             }
         }
 
         this.myLock = null;
 
         this.logger.info('[resign] resign is complete');
-        this.emit('resigned');
+        this.emit(Event.RESIGNED);
     }
 }
 
