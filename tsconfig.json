@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["es2019"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es5",
+    "allowJs": true,
+    "strictFunctionTypes": true,
+    "outDir": "./dist"
+  },
+  "include": [
+    "./src"
+  ]
+}

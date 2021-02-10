@@ -1,0 +1,9 @@
+dist
+node_modules
+logs
+log
+*.log
+
+# IDE
+.vscode
+.idea

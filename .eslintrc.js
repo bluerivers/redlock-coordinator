@@ -1,9 +1,9 @@
 module.exports = {
-    extends: ['airbnb-base'],
-    rules: {
-        indent: ["error", 4],
-        'max-len': ["error", 120],
-        // _id - mongodb에서 쓰는 변수라 제외
-        'no-underscore-dangle': ["error", { "allow": ["_id"] }]
-    }
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint"],
+  extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  rules: {
+    indent: ['error', 2],
+    'max-len': ['error', 120],
+  },
 };

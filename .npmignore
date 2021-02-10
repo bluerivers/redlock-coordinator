@@ -7,6 +7,16 @@
 # build
 Makefile
 
+# src
+src/
+
+# compile config
+.eslintignore
+.eslintrc.js
+babel.config.json
+tsconfig.json
+tsconfig.types.json
+
 # other files
 docs/
 examples/

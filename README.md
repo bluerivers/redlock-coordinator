@@ -22,7 +22,7 @@ npm install redlock-coordinator
 const Redis = require('io-redis');
 const Leader = require('redlock-coordinator');
 
-const coordinator = new Coordinator([
+const coordinator = new RedlockCoordinator([
     new Redis( /* ... */),
 ], { key: 'admin:coordinator:lock', logger: getLogger('coordinator') });
 ```
