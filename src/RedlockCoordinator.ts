@@ -107,7 +107,7 @@ class RedlockCoordinator extends EventEmitter implements CoordinatorInterface {
       myRedlockOptions,
     ).on('clientError', (error) => {
       this.logger.error(`A redis error has occurred - err: ${error}`);
-      this.emit(RedlockCoordinatorEvent.ERROR, error);
+      this.emit(RedlockCoordinatorEvent.ERROR, { error });
     });
 
     this.myLock = null;
@@ -134,7 +134,7 @@ class RedlockCoordinator extends EventEmitter implements CoordinatorInterface {
         this.logger.debug('[elect] I am not a coordinator');
       } else {
         this.logger.error(`[elect] error occurs - error: ${error}`);
-        this.emit(RedlockCoordinatorEvent.ERROR, error);
+        this.emit(RedlockCoordinatorEvent.ERROR, { error });
       }
 
       this.electId = setTimeout(this.elect.bind(this), this.waitTime);
@@ -157,7 +157,7 @@ class RedlockCoordinator extends EventEmitter implements CoordinatorInterface {
         return;
       } catch (error) {
         this.logger.warn(`[renew] extend fails - error: ${error}`);
-        this.emit(RedlockCoordinatorEvent.ERROR, error);
+        this.emit(RedlockCoordinatorEvent.ERROR, { error });
 
         try {
           await this.myLock!.unlock();
@@ -194,7 +194,7 @@ class RedlockCoordinator extends EventEmitter implements CoordinatorInterface {
         await this.myLock!.unlock();
       } catch (error) {
         this.logger.error(`[resign] unlock fails - error: ${error}`);
-        this.emit(RedlockCoordinatorEvent.ERROR, error);
+        this.emit(RedlockCoordinatorEvent.ERROR, { error });
       }
     }
 
